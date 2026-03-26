@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Image Detector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>Upload image to check real vs fake</h1>
+    </div>
+    <div id="error-msg"></div>
+    <div id="dropzone-wrap">
+      <div id="dropzone" role="button" tabindex="0" aria-label="Upload image">
+        <button id="browse-btn" type="button">Upload photo here</button>
+      </div>
+      <input type="file" id="file-input" accept="image/*" />
+    </div>
+    <div id="preview-state">
+      <div class="preview-img-box"><img id="preview-img" src="" alt="Preview" /></div>
+      <div class="preview-row">
+        <div>
+          <p class="preview-name" id="preview-name"></p>
+          <p class="preview-size" id="preview-size"></p>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button id="analyze-btn" type="button">Analyze</button>
+        <button id="reset-btn" type="button">Remove</button>
+      </div>
+    </div>
+    <div id="loader-state">
+      <div class="spinner"></div>
+      <p class="loader-label">Analyzing…</p>
+      <p class="loader-sub">Running inference</p>
+    </div>
+    <div id="result-state">
+      <div class="verdict">
+        <div class="verdict-dot" id="verdict-dot"></div>
+        <div>
+          <div class="verdict-label" id="verdict-text"></div>
+          <div class="verdict-sub" id="verdict-sub"></div>
+        </div>
+      </div>
+      <div class="conf-row">
+        <span class="conf-label">Confidence</span>
+        <span class="conf-pct" id="conf-pct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="conf-bar"></div>
+      </div>
+      <div class="result-img-box"><img id="result-img" src="" alt="Analyzed image" /></div>
+      <div class="result-meta">
+        <span>Model: <strong id="meta-model">—</strong></span>
+        <span>Time: <strong id="meta-time">—</strong></span>
+      </div>
+      <button id="again-btn" type="button">← Analyze another image</button>
+    </div>
+  </div>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
