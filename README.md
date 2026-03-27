@@ -2,28 +2,28 @@
 
 **ResNet-18 · Transfer Learning · PyTorch · Apple MPS**
 
-A binary image classifier that detects whether an image is **real**  or **AI-generated** , trained on the CIFAKE dataset. Achieves **97.67% test accuracy** with an AUC of **0.9971**.
+A binary image classifier that detects whether an image is **real** or **AI-generated**, trained on the CIFAKE dataset. Achieves **97.67% test accuracy** with an AUC of **0.9971**.
 
-
+---
 
 ## Results
 
-| Metric | Score |
-|||
+| Metric        | Score  |
+|---------------|-------:|
 | Test Accuracy | 97.67% |
-| Precision | 0.9803 |
-| Recall | 0.9728 |
-| F1 Score | 0.9766 |
-| AUC Score | 0.9971 |
+| Precision     | 0.9803 |
+| Recall        | 0.9728 |
+| F1 Score      | 0.9766 |
+| AUC Score     | 0.9971 |
 
 ### Confusion Matrix (20,000 test images)
 
-|  | Predicted FAKE | Predicted REAL |
-||||
-| **Actual FAKE** | 9,805 (True Negatives) | 195 (False Positives) |
-| **Actual REAL** | 272 (False Negatives) | 9,728 (True Positives) |
+|                 | Predicted FAKE         | Predicted REAL          |
+|-----------------|----------------------:|------------------------:|
+| **Actual FAKE** | 9,805 (True Negatives) | 195 (False Positives)   |
+| **Actual REAL** | 272 (False Negatives)  | 9,728 (True Positives)  |
 
-
+---
 
 ## Dataset
 
@@ -44,7 +44,7 @@ archive/
     └── FAKE/
 ```
 
-
+---
 
 ## Approach
 
@@ -74,10 +74,8 @@ Pre-trained **ResNet-18** (ImageNet weights) with the final fully-connected laye
 - **80/20 train/val split** — test set is completely untouched until final evaluation
 - **Clean validation transform** — augmentation applied only to training data, not validation
 
-
-
+---
 
 ## Limitations
 
 This model is optimized for the CIFAKE distribution — REAL images from CIFAR-10 and FAKE images from Stable Diffusion 1.4. Real-world performance will vary on images from other generators (Midjourney, DALL-E, etc.) or high-resolution photography, due to domain shift.
-
