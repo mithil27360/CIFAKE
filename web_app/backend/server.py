@@ -48,7 +48,7 @@ def predict():
     
     # Temperature Scaling factor to fix neural network overconfidence.
     # T > 1 softens the probabilities (brings them closer to 50%)
-    TEMPERATURE = 2.5 
+    TEMPERATURE = 15.0
     
     with torch.no_grad():
         logit = model(tensor)
