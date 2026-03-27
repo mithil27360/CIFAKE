@@ -4,12 +4,12 @@
 
 A binary image classifier that detects whether an image is **real**  or **AI-generated** , trained on the CIFAKE dataset. Achieves **97.67% test accuracy** with an AUC of **0.9971**.
 
----
+
 
 ## Results
 
 | Metric | Score |
-|---|---|
+|||
 | Test Accuracy | 97.67% |
 | Precision | 0.9803 |
 | Recall | 0.9728 |
@@ -19,11 +19,11 @@ A binary image classifier that detects whether an image is **real**  or **AI-gen
 ### Confusion Matrix (20,000 test images)
 
 |  | Predicted FAKE | Predicted REAL |
-|---|---|---|
+||||
 | **Actual FAKE** | 9,805 (True Negatives) | 195 (False Positives) |
 | **Actual REAL** | 272 (False Negatives) | 9,728 (True Positives) |
 
----
+
 
 ## Dataset
 
@@ -44,7 +44,7 @@ archive/
     └── FAKE/
 ```
 
----
+
 
 ## Approach
 
@@ -54,13 +54,13 @@ Pre-trained **ResNet-18** (ImageNet weights) with the final fully-connected laye
 
 ### Two-Phase Training
 
-**Phase 1 — FC Layer Only (3 epochs)**
+**— FC Layer Only (3 epochs)**
 - Backbone fully frozen
 - Only the final classification layer trains
 - Learning rate: `1e-3` with StepLR scheduler
 - Best model saved on validation accuracy
 
-**Phase 2 — Full Fine-Tuning (early stopping)**
+**— Full Fine-Tuning (early stopping)**
 - All layers unfrozen
 - Very low learning rate: `1e-5` to avoid destroying pretrained features
 - Early stopping with patience=2 to prevent overfitting
@@ -74,7 +74,7 @@ Pre-trained **ResNet-18** (ImageNet weights) with the final fully-connected laye
 - **80/20 train/val split** — test set is completely untouched until final evaluation
 - **Clean validation transform** — augmentation applied only to training data, not validation
 
----
+
 
 
 ## Limitations
