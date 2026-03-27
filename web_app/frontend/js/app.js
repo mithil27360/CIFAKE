@@ -10,10 +10,10 @@
   const fmt = b => b < 1024 ? b + " B" : b < 1 << 20 ? (b / 1024).toFixed(1) + " KB" : (b / 1048576).toFixed(2) + " MB";
   const err = m => { errorMsg.textContent = m; errorMsg.style.display = "block"; setTimeout(() => errorMsg.style.display = "none", 4500) };
   const show = s => {
-    dropWrap.style.display = s  "drop" ? "block" : "none";
-    previewState.style.display = s  "preview" ? "block" : "none";
-    loaderState.style.display = s  "loading" ? "block" : "none";
-    resultState.style.display = s  "result" ? "block" : "none";
+    dropWrap.style.display = s === "drop" ? "block" : "none";
+    previewState.style.display = s === "preview" ? "block" : "none";
+    loaderState.style.display = s === "loading" ? "block" : "none";
+    resultState.style.display = s === "result" ? "block" : "none";
   };
   const reset = () => { file = null; fileInput.value = ""; errorMsg.style.display = "none"; show("drop") };
   function handle(f) {
@@ -39,7 +39,7 @@
   fileInput.addEventListener("change", () => fileInput.files[0] && handle(fileInput.files[0]));
   resetBtn.addEventListener("click", reset);
   againBtn.addEventListener("click", reset);
-  dropzone.addEventListener("keydown", e => { (e.key  "Enter" || e.key  " ") && fileInput.click() });
+  dropzone.addEventListener("keydown", e => { (e.key === "Enter" || e.key === " ") && fileInput.click() });
   analyzeBtn.addEventListener("click", async () => {
     if (!file) return; show("loading");
     try {
@@ -49,7 +49,7 @@
         const res = await fetch("/api/predict", { method: "POST", body: fd });
         if (!res.ok) throw 0; d = await res.json();
       } catch { await new Promise(r => setTimeout(r, 1400)); d = mock(file) }
-      const real = d.prediction  "REAL";
+      const real = d.prediction === "REAL";
       let rawPct = d.confidence * 100;
       let pct = rawPct;
       if (rawPct > 95) {
