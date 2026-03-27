@@ -45,9 +45,15 @@ def predict():
 
     t0 = time.time()
     tensor = transform(img).unsqueeze(0)
+    
+    # Temperature Scaling factor to fix neural network overconfidence.
+    # T > 1 softens the probabilities (brings them closer to 50%)
+    TEMPERATURE = 2.5 
+    
     with torch.no_grad():
         logit = model(tensor)
-        prob = torch.sigmoid(logit).item()
+        scaled_logit = logit / TEMPERATURE
+        prob = torch.sigmoid(scaled_logit).item()
 
     elapsed_ms = round((time.time() - t0) * 1000)
     is_real = prob > 0.5
