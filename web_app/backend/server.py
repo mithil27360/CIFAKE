@@ -11,6 +11,7 @@ import os
 MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model', 'real_vs_fake_v3_final.pth')
 
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10 MB limit
 
 device = torch.device('cpu')
 model = models.resnet18()
@@ -52,8 +53,11 @@ def predict():
     is_real = prob > 0.5
     confidence = prob if is_real else 1 - prob
 
+    prediction = 'REAL' if is_real else 'FAKE'
+    print(f"Prediction: {prediction}, Confidence: {confidence:.4f}, Time: {elapsed_ms}ms")
+
     return jsonify({
-        'prediction': 'REAL' if is_real else 'FAKE',
+        'prediction': prediction,
         'confidence': round(confidence, 4),
         'model': 'CIFake ResNet-18',
         'processing_time_ms': elapsed_ms,

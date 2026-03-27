@@ -27,10 +27,7 @@
     const t0 = performance.now();
     (function s(now) { const p = Math.min((now - t0) / ms, 1), e = 1 - Math.pow(1 - p, 3); el.textContent = (target * e).toFixed(1) + "%"; p < 1 && requestAnimationFrame(s) })(t0);
   }
-  function mock(f) {
-    const seed = f.size % 100, real = seed > 45, conf = 0.78 + (seed / 100) * 0.18;
-    return { prediction: real ? "REAL" : "FAKE", confidence: +conf.toFixed(4), model: "CIFake ResNet-50 (Demo)", processing_time_ms: Math.round(300 + Math.random() * 600) };
-  }
+
   dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragging") });
   dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragging"));
   dropzone.addEventListener("drop", e => { e.preventDefault(); dropzone.classList.remove("dragging"); e.dataTransfer.files[0] && handle(e.dataTransfer.files[0]) });
@@ -44,20 +41,12 @@
     if (!file) return; show("loading");
     try {
       let d;
-      try {
-        const fd = new FormData(); fd.append("image", file);
-        const res = await fetch("/api/predict", { method: "POST", body: fd });
-        if (!res.ok) throw 0; d = await res.json();
-      } catch { await new Promise(r => setTimeout(r, 1400)); d = mock(file) }
+      const fd = new FormData(); fd.append("image", file);
+      const res = await fetch("/api/predict", { method: "POST", body: fd });
+      if (!res.ok) throw new Error("API returned status " + res.status);
+      d = await res.json();
       const real = d.prediction === "REAL";
-      let rawPct = d.confidence * 100;
-      let pct = rawPct;
-      if (rawPct > 95) {
-        pct = 88 + (rawPct - 95) * 0.8;
-      } else if (rawPct > 80) {
-        pct = 82 + (rawPct - 80) * 0.4;
-      }
-      pct = Math.min(pct, 94.5 + Math.random() * 2);
+      let pct = d.confidence * 100;
       
       $("verdict-text").textContent = real ? "Real Image" : "AI-Generated";
       const bar = $("conf-bar"); bar.className = "progress-fill " + (real ? "real" : "fake"); bar.style.width = "0%";

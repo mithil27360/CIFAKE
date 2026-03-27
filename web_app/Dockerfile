@@ -5,4 +5,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 EXPOSE 8080
 WORKDIR /app/backend
-CMD ["gunicorn", "--workers", "1", "--timeout", "120", "--bind", "0.0.0.0:8080", "server:app"]
+CMD ["gunicorn", "--workers", "4", "--timeout", "120", "--bind", "0.0.0.0:8080", "server:app"]
