@@ -59,7 +59,6 @@
       }
       pct = Math.min(pct, 94.5 + Math.random() * 2);
       
-      $("verdict-dot").className = "verdict-dot " + (real ? "real" : "fake");
       $("verdict-text").textContent = real ? "Real Image" : "AI-Generated";
       const bar = $("conf-bar"); bar.className = "progress-fill " + (real ? "real" : "fake"); bar.style.width = "0%";
       $("result-img").src = previewImg.src;
